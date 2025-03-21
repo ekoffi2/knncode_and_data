@@ -1,0 +1,128 @@
+---
+title: "hwk1"
+author: "Esther Koffi"
+date: "2025-02-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+q1 <- matrix(c(4, 4, 1, 8, 7, 5, 8, 8, 5, 9, 8, 6), nrow = 6, ncol = 2, byrow = TRUE)
+dist(q1)
+
+
+```
+
+b)
+The closest three observations are 3, 4, and 5 
+
+c)
+Yes
+
+```{r}
+vgsales <- read.csv(file = "vgsales.csv")
+
+
+```
+a-
+
+```{r}
+dim(vgsales)
+
+table(vgsales$Genre)
+
+```
+
+16593 observations and 2346 sports games.
+
+b-
+
+```{r}
+summary(vgsales$NA_Sales)
+
+
+```
+
+
+```{r}
+var(vgsales$NA_Sales)
+
+```
+
+c-
+```{r}
+hist(log(vgsales$NA_Sales), main = "Histroram of natrual logarithm of North American sales")
+
+```
+
+d-
+```{r}
+
+pairs(vgsales [ ,5:7])
+
+```
+
+In general,  relationship look positive between the sales for the vgsales data set.
+
+Question 3-
+
+
+```{r}
+
+bp <- read.csv(file = "BP.csv")
+bp$race <- as.factor(bp$race)
+
+```
+
+a-
+
+```{r}
+fit0 <- lm(bp ~ age + height + weight + race, data = bp)
+summary(fit0)
+
+
+
+
+```
+
+bp estimated = 25.679 - 0.043 * age + 1.312 * height + 0.059 * weight - 2.628 * race3 -4.539 * race4 -3.466* race5
+
+
+b)
+Mean blood pressure increases by 1.312 for each additional inch of height with other variables held constant in this relationship
+
+c)
+Height and weight.
+
+d)Adjusted R square = 0.3605 therefore we can said that  the model explains 36.05% of the variance in blood pressure.
+
+e-
+```{r}
+newdat <- data.frame(age = 20, height = 70, weight = 160, race = as.factor(4))
+predict(fit0, newdat)
+
+
+```
+
+f-
+```{r}
+
+fit1 <- lm(bp ~ age + height + weight + race + age:weight, data = bp)
+summary(fit1)
+
+```
+
+the adjusted r squared  increase slightly and the interaction is significant at 0.1
+
+g-
+
+```{r}
+fit2 <- lm(bp ~ . + log(age) + I(weight^2), data = bp)
+summary(fit2)
+
+
+```
+Including all of the variables plus the logarithm of age and a quadratic term in weight increased Adjusted R squared to 0.394. However, log(age), weight^2 and several other predictors were not significant.
